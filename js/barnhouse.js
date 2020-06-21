@@ -26,15 +26,19 @@ function preload() {
   this.load.image("barnback", "images/barnback.png");
   this.load.image("door1", "images/door.png");
   this.load.image("door2", "images/door.png");
-  this.load.spritesheet("horse_run_ss", "images/horse_sprites.png", {
+  this.load.spritesheet("horse_ss", "images/horse_sprites.png", {
     frameWidth: 150,
     frameHeight: 120,
   });
-  this.load.spritesheet("pig_roll_ss", "images/pig_sprites.png", {
+  this.load.spritesheet("pig_ss", "images/pig_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
   this.load.spritesheet("llama_ss", "images/llama_sprites.png", {
+    frameWidth: 120,
+    frameHeight: 120,
+  });
+  this.load.spritesheet("giraffe_ss", "images/giraffe_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
@@ -150,8 +154,8 @@ function create() {
   );
 
   this.anims.create({
-    key: "horse_run_anim",
-    frames: this.anims.generateFrameNumbers("horse_run_ss", {
+    key: "horse_anim",
+    frames: this.anims.generateFrameNumbers("horse_ss", {
       start: 0,
       end: 8,
     }),
@@ -159,8 +163,8 @@ function create() {
     repeat: -1,
   });
   this.anims.create({
-    key: "pig_roll_anim",
-    frames: this.anims.generateFrameNumbers("pig_roll_ss", {
+    key: "pig_anim",
+    frames: this.anims.generateFrameNumbers("pig_ss", {
       start: 0,
       end: 8,
     }),
@@ -176,11 +180,20 @@ function create() {
     frameRate: 20,
     repeat: -1,
   });
+  this.anims.create({
+    key: "giraffe_anim",
+    frames: this.anims.generateFrameNumbers("giraffe_ss", {
+      start: 0,
+      end: 8,
+    }),
+    frameRate: 20,
+    repeat: -1,
+  });
 
   animals = [
     {
-      sprite: "horse_run",
-      animation: "horse_run_anim",
+      sprite: "horse",
+      animation: "horse_anim",
       tween_props: {
         x: {
           value: -100,
@@ -200,8 +213,8 @@ function create() {
       },
     },
     {
-      sprite: "piggy",
-      animation: "pig_roll_anim",
+      sprite: "pig",
+      animation: "pig_anim",
       tween_props: {
         x: {
           value: -100,
@@ -224,7 +237,19 @@ function create() {
           duration: 4000,
           ease: "Quad.easeIn",
           repeat: 0,
-        }
+        },
+      },
+    },
+    {
+      sprite: "giraffe",
+      animation: "giraffe_anim",
+      tween_props: {
+        x: {
+          value: -100,
+          duration: 3000,
+          ease: "Linear",
+          repeat: 0,
+        },
       },
     },
   ];
