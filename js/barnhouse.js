@@ -42,6 +42,10 @@ function preload() {
     frameWidth: 120,
     frameHeight: 120,
   });
+  this.load.spritesheet("panda_ss", "images/panda_sprites.png", {
+    frameWidth: 160,
+    frameHeight: 120,
+  });
 
   doorPoly = new Phaser.Geom.Polygon([
     new Phaser.Geom.Point(barnPos.x + 37, barnPos.y + 109),
@@ -189,9 +193,18 @@ function create() {
     frameRate: 20,
     repeat: -1,
   });
+  this.anims.create({
+    key: "panda_anim",
+    frames: this.anims.generateFrameNumbers("panda_ss", {
+      start: 0,
+      end: 8,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
 
   animals = [
-    {
+{
       sprite: "horse",
       animation: "horse_anim",
       tween_props: {
@@ -250,6 +263,27 @@ function create() {
           ease: "Linear",
           repeat: 0,
         },
+      },
+    },
+    {
+      sprite: "panda",
+      animation: "panda_anim",
+      tween_props: {
+        x: {
+          value: -100,
+          duration: 3000,
+          ease: "Linear",
+          repeat: 0,
+        },
+        y: {
+          duration: 400,
+          delay: 500,
+          yoyo: true,
+          repeat: 3,
+          ease: "Sine",
+          value: animalStart.y - 30,
+        },
+        
       },
     },
   ];
