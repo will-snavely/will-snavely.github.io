@@ -46,6 +46,10 @@ function preload() {
     frameWidth: 160,
     frameHeight: 120,
   });
+  this.load.spritesheet("blow_ss", "images/blow_sprites.png", {
+    frameWidth: 120,
+    frameHeight: 120,
+  });
 
   doorPoly = new Phaser.Geom.Polygon([
     new Phaser.Geom.Point(barnPos.x + 37, barnPos.y + 109),
@@ -202,9 +206,19 @@ function create() {
     frameRate: 15,
     repeat: -1,
   });
+  this.anims.create({
+    key: "blow_anim",
+    frames: this.anims.generateFrameNumbers("blow_ss", {
+      start: 0,
+      end: 24,
+    }),
+    frameRate: 20,
+    delay: 3000,
+    repeat: -1,
+  });
 
   animals = [
- {
+    {
       sprite: "horse",
       animation: "horse_anim",
       tween_props: {
@@ -283,7 +297,26 @@ function create() {
           ease: "Sine",
           value: animalStart.y - 30,
         },
-        
+      },
+    },
+    {
+      sprite: "blow",
+      animation: "blow_anim",
+      tween_props: {
+        x: {
+          value: -100,
+          duration: 3000,
+          ease: "Linear",
+          repeat: 0,
+        },
+        y: {
+          delay: 1000,
+          duration: 625,
+          yoyo: true,
+          repeat: 2,
+          ease: "Sine",
+          value: animalStart.y - 100,
+        },
       },
     },
   ];
