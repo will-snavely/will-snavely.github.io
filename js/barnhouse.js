@@ -204,7 +204,7 @@ function create() {
   });
 
   animals = [
-/*{
+ {
       sprite: "horse",
       animation: "horse_anim",
       tween_props: {
@@ -264,7 +264,7 @@ function create() {
           repeat: 0,
         },
       },
-    },*/
+    },
     {
       sprite: "panda",
       animation: "panda_anim",
