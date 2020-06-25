@@ -1,8 +1,9 @@
 var config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 400,
+  width: 2000,
+  height: 350,
   parent: "barn",
+  transparent: true,
   scene: {
     preload: preload,
     create: create,
@@ -14,17 +15,17 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-var barnPos = new Phaser.Geom.Point(504, 2);
-var animalStart = new Phaser.Geom.Point(700, 240);
-var door1Pos = new Phaser.Geom.Point(barnPos.x + 37, barnPos.y + 108);
-var door2Pos = new Phaser.Geom.Point(barnPos.x + 71, barnPos.y + 142);
+var barnPos = new Phaser.Geom.Point(0, 0);
+var animalStart = new Phaser.Geom.Point(100, 240);
+var animalEndX = 2000;
+var door1Pos = new Phaser.Geom.Point(barnPos.x + 200, barnPos.y + 142);
+var door2Pos = new Phaser.Geom.Point(door1Pos.x + 35, door1Pos.y - 35);
 var doorDisplace = 25;
 var doorPoly;
 var state = "init";
 var animals;
 
 function preload() {
-  this.load.image("background", "assets/images/background.png");
   this.load.image("barnfront", "assets/images/barnfront.png");
   this.load.image("barnback", "assets/images/barnback.png");
   this.load.image("door1", "assets/images/door.png");
@@ -57,29 +58,24 @@ function preload() {
   });
 
   doorPoly = new Phaser.Geom.Polygon([
-    new Phaser.Geom.Point(barnPos.x + 37, barnPos.y + 109),
-    new Phaser.Geom.Point(barnPos.x + 107, barnPos.y + 178),
-    new Phaser.Geom.Point(barnPos.x + 107, barnPos.y + 316),
-    new Phaser.Geom.Point(barnPos.x + 37, barnPos.y + 248),
-  ]);
-
-  this.load.audioSprite("sfx", "assets/audio/sfx.json", [
-    "assets/audio/sfx.ogg",
+    new Phaser.Geom.Point(barnPos.x + 200, barnPos.y + 178),
+    new Phaser.Geom.Point(barnPos.x + 270, barnPos.y + 109),
+    new Phaser.Geom.Point(barnPos.x + 270, barnPos.y + 248),
+    new Phaser.Geom.Point(barnPos.x + 200, barnPos.y + 316),
   ]);
 }
 
 function create() {
-  var background_image = this.add.image(0, 0, "background").setOrigin(0, 0);
+  var barnfront_image = this.add
+    .image(barnPos.x, barnPos.y, "barnfront")
+    .setOrigin(0, 0);
+
   var barnback_image = this.add
-    .image(barnPos.x, barnPos.y, "barnback")
+    .image(barnPos.x + 200, barnPos.y, "barnback")
     .setOrigin(0, 0);
 
   var door1_image = this.add
     .image(door1Pos.x, door1Pos.y, "door1")
-    .setOrigin(0, 0);
-
-  var barnfront_image = this.add
-    .image(barnPos.x + 107, barnPos.y, "barnfront")
     .setOrigin(0, 0);
 
   var door2_image = this.add
@@ -87,17 +83,17 @@ function create() {
     .setOrigin(0, 0);
 
   var pusher_image = this.add.image(
-    animalStart.x,
+    animalStart.x - 40,
     animalStart.y + 10,
     "pusher"
   );
+  pusher_image.flipX = true;
 
-  background_image.setDepth(10);
-  barnback_image.setDepth(20);
-  door1_image.setDepth(40);
-  pusher_image.setDepth(41);
-  barnfront_image.setDepth(50);
-  door2_image.setDepth(60);
+  barnback_image.setDepth(30);
+  door2_image.setDepth(40);
+  pusher_image.setDepth(50);
+  barnfront_image.setDepth(60);
+  door1_image.setDepth(70);
 
   this.input.on(
     "pointermove",
@@ -131,28 +127,27 @@ function create() {
           "animal_sprite"
         );
 
-        sprite.setDepth(45);
-        sprite.anims.play(animal.start_animation, true);
-        pusher_image.x = animalStart.x + 90;
+        sprite.setDepth(55);
+        sprite.flipX = true;
+        sprite.anims.play(animal.start_animation);
 
         this.tweens.timeline({
           onComplete: function () {
             sprite.destroy();
-            state = "init";
           },
 
           tweens: [
             {
               targets: door1_image,
               x: door1Pos.x - doorDisplace,
-              y: door1Pos.y - doorDisplace,
+              y: door1Pos.y + doorDisplace,
               duration: 2000,
               offset: 0,
             },
             {
               targets: door2_image,
               x: door2Pos.x + doorDisplace,
-              y: door2Pos.y + doorDisplace,
+              y: door2Pos.y - doorDisplace,
               duration: 2000,
               offset: 0,
             },
@@ -161,7 +156,7 @@ function create() {
               offset: 2000,
               props: {
                 x: {
-                  value: pusher_image.x - 200,
+                  value: pusher_image.x + 200,
                   duration: 1000,
                   ease: "Linear",
                   yoyo: true,
@@ -174,14 +169,11 @@ function create() {
               offset: 2000,
               props: {
                 x: {
-                  value: animalStart.x - 200,
+                  value: animalStart.x + 200,
                   duration: 1000,
                   ease: "Linear",
                   repeat: 0,
                 },
-              },
-              onStart: function () {
-                sprite.anims.play(animal.start_animation);
               },
             },
             {
@@ -204,14 +196,23 @@ function create() {
               x: door1Pos.x,
               y: door1Pos.y,
               duration: 2000,
-              offset: 6000,
+              offset: 5000,
             },
             {
               targets: door2_image,
               x: door2Pos.x,
               y: door2Pos.y,
               duration: 2000,
-              offset: 6000,
+              offset: 5000,
+              onComplete: function() {
+                state = "init";
+              }
+            },
+            {
+              targets: sprite,
+              alpha: 0,
+              duration: 1000,
+              offset: 10000,
             },
           ],
         });
@@ -324,7 +325,7 @@ function create() {
       move_animation: "horse_move",
       tween: {
         x: {
-          value: -100,
+          value: animalEndX,
           duration: 3000,
           ease: "Linear",
         },
@@ -336,26 +337,20 @@ function create() {
           value: animalStart.y - 100,
         },
       },
-      tween_onRepeat: function () {
-        this.sound.playAudioSprite("sfx", "horse_bounce");
-      },
-      tween_onStart: function (scene) {
-        scene.sound.playAudioSprite("sfx", "horse_bounce");
-      },
     },
     {
       start_animation: "pig_start",
       move_animation: "pig_move",
       tween: {
         x: {
-          value: -100,
-          duration: 3000,
+          value: animalEndX,
+          duration: 8000,
           ease: "Linear",
           repeat: 0,
         },
         rotation: {
-          value: -6,
-          duration: 3000,
+          value: 10,
+          duration: 8000,
         },
       },
     },
@@ -364,14 +359,11 @@ function create() {
       move_animation: "llama_move",
       tween: {
         x: {
-          value: -100,
-          duration: 3000,
+          value: animalEndX,
+          duration: 8000,
           ease: "Quad.easeIn",
           repeat: 0,
         },
-      },
-      tween_onStart: function (scene) {
-        scene.sound.playAudioSprite("sfx", "llama_rocket");
       },
     },
     {
@@ -379,8 +371,8 @@ function create() {
       move_animation: "giraffe_move",
       tween: {
         x: {
-          value: -100,
-          duration: 3000,
+          value: animalEndX,
+          duration: 8000,
           ease: "Linear",
           repeat: 0,
         },
@@ -391,15 +383,15 @@ function create() {
       move_animation: "panda_move",
       tween: {
         x: {
-          value: -100,
-          duration: 3000,
+          value: animalEndX,
+          duration: 8000,
           ease: "Linear",
           repeat: 0,
         },
         y: {
           duration: 400,
           yoyo: true,
-          repeat: 3,
+          repeat: 10,
           ease: "Sine",
           value: animalStart.y - 30,
         },
@@ -410,15 +402,15 @@ function create() {
       move_animation: "blowfish_move",
       tween: {
         x: {
-          value: -100,
-          duration: 3000,
+          value: animalEndX,
+          duration: 8000,
           ease: "Linear",
           repeat: 0,
         },
         y: {
           duration: 625,
           yoyo: true,
-          repeat: 2,
+          repeat: 10,
           ease: "Sine",
           value: animalStart.y - 100,
         },
