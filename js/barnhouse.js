@@ -51,7 +51,7 @@ function preload() {
     frameWidth: 160,
     frameHeight: 120,
   });
-  this.load.spritesheet("blow_ss", "images/blow_sprites.png", {
+  this.load.spritesheet("blow_ss", "assets/images/blow_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
