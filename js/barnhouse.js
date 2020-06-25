@@ -326,7 +326,7 @@ function create() {
       tween: {
         x: {
           value: animalEndX,
-          duration: 3000,
+          duration: 8000,
           ease: "Linear",
         },
         y: {
