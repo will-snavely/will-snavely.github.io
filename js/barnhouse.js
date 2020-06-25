@@ -204,9 +204,9 @@ function create() {
               y: door2Pos.y,
               duration: 2000,
               offset: 5000,
-              onComplete: function() {
+              onComplete: function () {
                 state = "init";
-              }
+              },
             },
             {
               targets: sprite,
@@ -332,7 +332,7 @@ function create() {
         y: {
           duration: 300,
           yoyo: true,
-          repeat: 4,
+          repeat: 10,
           ease: "Sine",
           value: animalStart.y - 100,
         },
