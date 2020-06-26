@@ -15,8 +15,8 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-var barnPos = new Phaser.Geom.Point(0, 0);
-var animalStart = new Phaser.Geom.Point(100, 240);
+var barnPos = new Phaser.Geom.Point(-130, 0);
+var animalStart = new Phaser.Geom.Point(-30, 240);
 var animalEndX = 2000;
 var door1Pos = new Phaser.Geom.Point(barnPos.x + 200, barnPos.y + 142);
 var door2Pos = new Phaser.Geom.Point(door1Pos.x + 35, door1Pos.y - 35);
