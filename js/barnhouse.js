@@ -140,17 +140,6 @@ function create() {
       pixelPerfect: true,
       alphaTolerance: 1,
     })
-    .on("pointerdown", function () {
-      highlight_group.forEach(function (elem) {
-        elem.setTint(0xff0000);
-      });
-    });
-
-  barnmask_image
-    .setInteractive({
-      pixelPerfect: true,
-      alphaTolerance: 1,
-    })
     .on(
       "pointerup",
       function () {
@@ -160,12 +149,6 @@ function create() {
           speech_image.y = 150;
           speech_image.alpha = 1;
           speech_image.setDepth(70);
-
-          if (!pointer_over) {
-            highlight_group.forEach(function (elem) {
-              elem.setTint(0xffffff);
-            });
-          }
 
           this.tweens.add({
             targets: speech_image,
