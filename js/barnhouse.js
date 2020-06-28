@@ -102,16 +102,25 @@ function create() {
   barnfront_image.setDepth(60);
   door1_image.setDepth(70);
 
+  var highlight_group = [
+    barnback_image,
+    barnfront_image,
+    door1_image,
+    door2_image,
+  ];
+
+  var pointer_over = false;
+
   barnmask_image
     .setInteractive({
       pixelPerfect: true,
       alphaTolerance: 1,
     })
-    .on("pointermove", function () {
-      barnback_image.setTint(0xff0000);
-      barnfront_image.setTint(0xff0000);
-      door1_image.setTint(0xff0000);
-      door2_image.setTint(0xff0000);
+    .on("pointerover", function () {
+      pointer_over = true;
+      highlight_group.forEach(function (elem) {
+        elem.setTint(0xff0000);
+      });
     });
 
   barnmask_image
@@ -120,10 +129,10 @@ function create() {
       alphaTolerance: 1,
     })
     .on("pointerout", function () {
-      barnback_image.setTint(0xffffff);
-      barnfront_image.setTint(0xffffff);
-      door1_image.setTint(0xffffff);
-      door2_image.setTint(0xffffff);
+      pointer_over = false;
+      highlight_group.forEach(function (elem) {
+        elem.setTint(0xffffff);
+      });
     });
 
   barnmask_image
@@ -131,11 +140,10 @@ function create() {
       pixelPerfect: true,
       alphaTolerance: 1,
     })
-    .on("pointerup", function () {
-      barnback_image.setTint(0xff0000);
-      barnfront_image.setTint(0xff0000);
-      door1_image.setTint(0xff0000);
-      door2_image.setTint(0xff0000);
+    .on("pointerdown", function () {
+      highlight_group.forEach(function (elem) {
+        elem.setTint(0xff0000);
+      });
     });
 
   barnmask_image
@@ -152,6 +160,12 @@ function create() {
           speech_image.y = 150;
           speech_image.alpha = 1;
           speech_image.setDepth(70);
+
+          if (!pointer_over) {
+            highlight_group.forEach(function (elem) {
+              elem.setTint(0xffffff);
+            });
+          }
 
           this.tweens.add({
             targets: speech_image,
