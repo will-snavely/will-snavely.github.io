@@ -1,7 +1,15 @@
 .sky {
-    background-color: #2adbea;
+  background-color: #2adbea;
 }
 
 .grass {
-    background-color: #57e592;
+  background-color: #57e592;
+}
+
+.blmbg {
+  background-color: #000000;
+}
+
+.flagbg {
+  background-image: url("../assets/images/flag2.png");
 }

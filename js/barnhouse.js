@@ -1,7 +1,7 @@
 var config = {
   type: Phaser.AUTO,
   width: 2000,
-  height: 400,
+  height: 500,
   parent: "barn",
   transparent: true,
   scene: {
