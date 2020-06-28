@@ -110,6 +110,7 @@ function create() {
   ];
 
   var pointer_over = false;
+  var tint = 0xfffffff;
 
   barnmask_image
     .setInteractive({
@@ -117,7 +118,6 @@ function create() {
       alphaTolerance: 1,
     })
     .on("pointerover", function () {
-      pointer_over = true;
       highlight_group.forEach(function (elem) {
         elem.setTint(0xff0000);
       });
@@ -129,7 +129,6 @@ function create() {
       alphaTolerance: 1,
     })
     .on("pointerout", function () {
-      pointer_over = false;
       highlight_group.forEach(function (elem) {
         elem.setTint(0xffffff);
       });
@@ -140,8 +139,15 @@ function create() {
       pixelPerfect: true,
       alphaTolerance: 1,
     })
+    .on("pointerup", function () {});
+
+  barnmask_image
+    .setInteractive({
+      pixelPerfect: true,
+      alphaTolerance: 1,
+    })
     .on(
-      "pointerup",
+      "pointerdown",
       function () {
         if (state == "playing") {
           var speech_image = this.add.image(0, 0, "speech");
@@ -150,39 +156,7 @@ function create() {
           speech_image.alpha = 1;
           speech_image.setDepth(70);
 
-          this.tweens.add({
-            targets: speech_image,
-            onComplete: function () {
-              speech_image.destroy();
-            },
-            duration: 1000,
-            props: {
-              alpha: {
-                value: 0,
-                ease: "Quad.easeIn",
-              },
-              scaleX: {
-                value: 0.5,
-                ease: "Linear",
-              },
-              rotation: {
-                value: -0.4,
-                ease: "Linear",
-              },
-              scaleY: {
-                value: 0.5,
-                ease: "Linear",
-              },
-              x: {
-                value: 300,
-                ease: "Linear",
-              },
-              y: {
-                value: 50,
-                ease: "Linear",
-              },
-            },
-          });
+          this.tweens.add(make_speech_bubble_tween(speech_image));
         } else if (state == "init") {
           state = "playing";
 
@@ -484,6 +458,42 @@ function create() {
       },
     },
   ];
+}
+
+function make_speech_bubble_tween(target) {
+  return {
+    targets: target,
+    onComplete: function () {
+      target.destroy();
+    },
+    duration: 1000,
+    props: {
+      alpha: {
+        value: 0,
+        ease: "Quad.easeIn",
+      },
+      scaleX: {
+        value: 0.5,
+        ease: "Linear",
+      },
+      rotation: {
+        value: -0.4,
+        ease: "Linear",
+      },
+      scaleY: {
+        value: 0.5,
+        ease: "Linear",
+      },
+      x: {
+        value: 300,
+        ease: "Linear",
+      },
+      y: {
+        value: 50,
+        ease: "Linear",
+      },
+    },
+  };
 }
 
 function update() {}
