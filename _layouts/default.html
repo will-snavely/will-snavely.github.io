@@ -40,15 +40,15 @@
                   <a
                     class="card-link listitem-link"
                     data-parent="#card-1"
-                    href="{{ section.link }}"
+                    href="{{ section[1].link }}"
                   >
                     <img
-                      src="/assets/images/barn.png"
+                      src="{{ section[1].icon }}"
                       height="60"
                       width="60"
                       class="listitem-icon"
                     />
-                    {{ section.name }}
+                    {{ section[1].title }}
                   </a>
                 </div>
               </div>

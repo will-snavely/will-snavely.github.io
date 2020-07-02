@@ -24,13 +24,13 @@
 }
 
 .listitem-bgimage {
-  width: 200px;
+  width: 250px;
   height: 100px;
 }
 
 .listitem-link {
   position: absolute;
-  left: 40px;
+  left: 20px;
   top: 25px;
 }
 
@@ -42,4 +42,11 @@
 
 .barnanim {
   height: 500px;
+}
+
+.post-img {
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
 }
