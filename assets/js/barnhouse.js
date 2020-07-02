@@ -30,35 +30,35 @@ var state = "init";
 var animals;
 
 function preload() {
-  this.load.image("barnfront", "/assets/images/barnfront.png");
-  this.load.image("barnmask", "/assets/images/barnmask.png");
-  this.load.image("barnback", "/assets/images/barnback.png");
-  this.load.image("speech", "/assets/images/speech.png");
-  this.load.image("door1", "/assets/images/door.png");
-  this.load.image("door2", "/assets/images/door.png");
-  this.load.image("pusher", "/assets/images/pusher.png");
+  this.load.image("barnfront", "/assets/images/footer/barnfront.png");
+  this.load.image("barnmask", "/assets/images/footer/barnmask.png");
+  this.load.image("barnback", "/assets/images/footer/barnback.png");
+  this.load.image("speech", "/assets/images/footer/speech.png");
+  this.load.image("door1", "/assets/images/footer/door.png");
+  this.load.image("door2", "/assets/images/footer/door.png");
+  this.load.image("pusher", "/assets/images/footer/pusher.png");
 
-  this.load.spritesheet("horse_ss", "/assets/images/horse_sprites.png", {
+  this.load.spritesheet("horse_ss", "/assets/images/footer/horse_sprites.png", {
     frameWidth: 150,
     frameHeight: 120,
   });
-  this.load.spritesheet("pig_ss", "/assets/images/pig_sprites.png", {
+  this.load.spritesheet("pig_ss", "/assets/images/footer/pig_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
-  this.load.spritesheet("llama_ss", "/assets/images/llama_sprites.png", {
+  this.load.spritesheet("llama_ss", "/assets/images/footer/llama_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
-  this.load.spritesheet("giraffe_ss", "/assets/images/giraffe_sprites.png", {
+  this.load.spritesheet("giraffe_ss", "/assets/images/footer/giraffe_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
-  this.load.spritesheet("panda_ss", "/assets/images/panda_sprites.png", {
+  this.load.spritesheet("panda_ss", "/assets/images/footer/panda_sprites.png", {
     frameWidth: 160,
     frameHeight: 120,
   });
-  this.load.spritesheet("blow_ss", "/assets/images/blow_sprites.png", {
+  this.load.spritesheet("blow_ss", "/assets/images/footer/blow_sprites.png", {
     frameWidth: 120,
     frameHeight: 120,
   });
