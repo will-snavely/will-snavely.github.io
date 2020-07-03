@@ -74,7 +74,11 @@ magical snowball that picks up everything it comes into contact with, growing la
 as it incorporates—folds in—more material. The `fold` operator works much like this.  In the case
 of summation, our snowball is a running total, which grows as it encounters each value of the list.
 
-<div id="fold1"></div>
+<div class="row">
+  <div class="col-md-12">
+    <div id="fold1"></div>
+  </div>
+</div>
 
 Thus, when designing a `fold` operation, one has to answer the following questions:
 
