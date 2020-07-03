@@ -1,20 +1,20 @@
-var config = {
+var barnhouseConfig = {
   type: Phaser.AUTO,
   width: window.innerWidth,
   height: 500,
   parent: "barn",
   transparent: true,
   scene: {
-    preload: preload,
-    create: create,
-    update: update,
+    preload: barnhousePreload,
+    create: barnhouseCreate,
+    update: barnhouseUpdate,
   },
   scale: {
-    mode: Phaser.Scale.RESIZE
+    mode: Phaser.Scale.RESIZE,
   },
 };
 
-var game = new Phaser.Game(config);
+var barnhouseGame = new Phaser.Game(barnhouseConfig);
 var barnPos = new Phaser.Geom.Point(-130, 40);
 var animalStart = new Phaser.Geom.Point(-30, 280);
 var animalEndX = 2000;
@@ -24,8 +24,9 @@ var doorDisplace = 25;
 var doorPoly;
 var state = "init";
 var animals;
+var barnmask_image;
 
-function preload() {
+function barnhousePreload() {
   this.load.image("barnfront", "/assets/images/footer/barnfront.png");
   this.load.image("barnmask", "/assets/images/footer/barnmask.png");
   this.load.image("barnback", "/assets/images/footer/barnback.png");
@@ -46,10 +47,14 @@ function preload() {
     frameWidth: 120,
     frameHeight: 120,
   });
-  this.load.spritesheet("giraffe_ss", "/assets/images/footer/giraffe_sprites.png", {
-    frameWidth: 120,
-    frameHeight: 120,
-  });
+  this.load.spritesheet(
+    "giraffe_ss",
+    "/assets/images/footer/giraffe_sprites.png",
+    {
+      frameWidth: 120,
+      frameHeight: 120,
+    }
+  );
   this.load.spritesheet("panda_ss", "/assets/images/footer/panda_sprites.png", {
     frameWidth: 160,
     frameHeight: 120,
@@ -58,17 +63,10 @@ function preload() {
     frameWidth: 120,
     frameHeight: 120,
   });
-
-  doorPoly = new Phaser.Geom.Polygon([
-    new Phaser.Geom.Point(barnPos.x + 200, barnPos.y + 178),
-    new Phaser.Geom.Point(barnPos.x + 270, barnPos.y + 109),
-    new Phaser.Geom.Point(barnPos.x + 270, barnPos.y + 248),
-    new Phaser.Geom.Point(barnPos.x + 200, barnPos.y + 316),
-  ]);
 }
 
-function create() {
-  var barnmask_image = this.add
+function barnhouseCreate() {
+  barnmask_image = this.add
     .image(barnPos.x, barnPos.y, "barnmask")
     .setOrigin(0, 0);
 
@@ -109,9 +107,6 @@ function create() {
     door2_image,
   ];
 
-  var pointer_over = false;
-  var tint = 0xfffffff;
-
   barnmask_image
     .setInteractive({
       pixelPerfect: true,
@@ -121,30 +116,11 @@ function create() {
       highlight_group.forEach(function (elem) {
         elem.setTint(0xff0000);
       });
-    });
-
-  barnmask_image
-    .setInteractive({
-      pixelPerfect: true,
-      alphaTolerance: 1,
     })
     .on("pointerout", function () {
       highlight_group.forEach(function (elem) {
         elem.setTint(0xffffff);
       });
-    });
-
-  barnmask_image
-    .setInteractive({
-      pixelPerfect: true,
-      alphaTolerance: 1,
-    })
-    .on("pointerup", function () {});
-
-  barnmask_image
-    .setInteractive({
-      pixelPerfect: true,
-      alphaTolerance: 1,
     })
     .on(
       "pointerdown",
@@ -496,4 +472,4 @@ function make_speech_bubble_tween(target) {
   };
 }
 
-function update() {}
+function barnhouseUpdate() {}
