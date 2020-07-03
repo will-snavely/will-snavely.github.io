@@ -16,6 +16,9 @@ var config = {
       debug: false,
     },
   },
+  scale: {
+    mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT,
+  },
 };
 
 var game = new Phaser.Game(config);
