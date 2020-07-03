@@ -1,12 +1,12 @@
-var config = {
+var fold1Config = {
   type: Phaser.AUTO,
   width: 800,
   height: 260,
   parent: "fold1",
   scene: {
-    preload: preload,
-    create: create,
-    update: update,
+    preload: fold1Preload,
+    create: fold1Create,
+    update: fold1Update,
   },
   backgroundColor: Phaser.Display.Color.HexStringToColor("0xa6edff").color,
   physics: {
@@ -21,7 +21,7 @@ var config = {
   },
 };
 
-var game = new Phaser.Game(config);
+var fold1Game = new Phaser.Game(fold1Config);
 var cursors;
 var player;
 var ball;
@@ -29,13 +29,12 @@ var platforms;
 var buttonDown = false;
 var sumText;
 var sum = 0;
-var dog1;
 var movingBodies = [];
 var rotatingBodies = [];
 var velocity = 160;
 var collectables;
 
-function preload() {
+function fold1Preload() {
   this.load.image("guy", "/assets/images/posts/fold1/guy.png");
   this.load.image("ball", "/assets/images/posts/fold1/ball.png");
   this.load.image("ground", "/assets/images/posts/fold1/ground.png");
@@ -47,7 +46,7 @@ function preload() {
   this.load.image("cactus5", "/assets/images/posts/fold1/cactus.png");
 }
 
-function create() {
+function fold1Create() {
   platforms = this.physics.add.staticGroup();
   platforms.create(400, 230, "ground");
 
@@ -133,7 +132,7 @@ function stop() {
   move(0, 0);
 }
 
-function update() {
+function fold1Update() {
   collectables.forEach(function (item) {
     if (!item.collected && ball.x > item.intercept) {
       item.collected = true;
