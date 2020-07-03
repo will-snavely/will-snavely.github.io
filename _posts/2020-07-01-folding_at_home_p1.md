@@ -2,8 +2,9 @@
 layout: post
 title: "Folding at Home, Part 1: Origins"
 date: 2020-07-01
-section: haskell
+section: horsing
 author: WS
+scripts: ["/assets/js/folding1.js"]
 ---
 
 The word "fold" has an impressive diversity of meanings. One can fold a sheet,
@@ -25,12 +26,75 @@ which is related to the [PIE root _pel_](https://en.wiktionary.org/wiki/Reconstr
 which itself is the ultimate root for the Proto-Germanic word that became the English
 "fold." Everything folds together nicely.
 
-"Fold" moreover has special meaning in computer science, which we will explore in depth,
-over time. Let's first try to develop some intuition about folding in this context. Suppose
-we are interested in  
+"Fold" moreover has special meaning in computer science. Suppose I have a simple list of
+numbers.
 
-<img 
-    src="/assets/images/posts/fold_etym.svg" 
-    alt="alt text" 
-    width="300" 
-    class="img-fluid mx-auto d-block">
+```
+1,2,3,4,5
+```
+
+I'd like to find the sum of these numbers. One way to go about this: replace every comma
+in the list with a plus sign, and compute the result.
+
+```
+1,2,3,4,5 
+=> replace "," with '+' 
+=> 1+2+3+4+5
+=> 15
+```
+
+Similarly, I could compute the product:
+
+```
+1,2,3,4,5 
+=> replace "," with '*' 
+=> 1*2*3*4*5
+=> 120
+```
+
+In both cases, I've taken my list of numbers and "reduced" it to a single value, using some
+common arithmetic operator to the combine numbers together. In other words, I've "folded" together
+the list in a way that produces a single number. These examples—sum and product—are generally
+the first offered in most explanations of the `fold` operator, with good reason. They are simple
+examples using generally understood concepts. But like most simple examples, they miss something.
+Specifically, they give the impression that `fold`-ing something necessarily simplifies or reduces it.
+The word "fold" itself adds to this impression—folding a list is like folding a sheet, in that we
+make it "smaller".
+
+Instead, the `fold` operator perhaps should evoke folding in the sense of origami. We are applying
+some well-defined operation to convert one thing into something else. These specific examples
+just happen to convert something structured into something less structured: a list of numbers
+into a single value. It's the kind of origami that turns a square into a smaller square by folding
+it in half twice. But if we desired we could make a swan instead. The `fold` operator has
+similar flexibility.
+
+Or, perhaps it's more accurate to think about the idea of "folding something in." In the game
+[_Katamari Damacy_](https://www.youtube.com/watch?v=JHsFcSNFUMc), you roll around a sort of
+magical snowball that picks up everything it comes into contact with, growing larger and larger
+as it incorporates—folds in—more material. The `fold` operator works much like this.  In the case
+of summation, our snowball is a running total, which grows as it encounters each value of the list.
+
+<div id="fold1"></div>
+
+Thus, when designing a `fold` operation, one has to answer the following questions:
+
+1. What is the nature of the entity we are accumulating? We might call this the destination type.
+2. How do we accumulate elements of the source type into the destination type? We might call this the accumulation function.
+3. What is the initial value of the accumulator?
+
+For the summation of a list of integers, the answers to these questions are:
+
+1. The destination type is an integer.
+2. For a given value in the list, we simply add it to the accumulator.
+3. The initial value is 0 (i.e. the additive identity).
+
+For the product of a list of integers, the answers are almost the same:
+
+1. The destination type is an integer.
+2. For a given value in the list, we multiply the accumulator by this value.
+3. The initial value is 1 (the multiplicative identity).
+
+One has substantial latitude in answering these questions. For example, the destination type
+need not be simpler than the source type. The accumulation function can be as simple or
+complex as needed. And, of course, the initial value must adjust based on the destination
+type chosen. In the next post, we'll start looking at some of these ideas in code.

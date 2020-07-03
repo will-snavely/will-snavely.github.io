@@ -3,8 +3,8 @@ home:
   link: /index.html
   icon: /assets/images/barn.png
 
-haskell:
-  title: Horsing with Haskell
-  link: /haskell.html
+horsing:
+  title: Horsing Around
+  link: /horsing.html
   icon: /assets/images/horse.png
  

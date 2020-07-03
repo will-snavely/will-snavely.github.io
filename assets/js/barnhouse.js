@@ -12,10 +12,6 @@ var config = {
   scale: {
     mode: Phaser.Scale.RESIZE
   },
-
-  audio: {
-    disableWebAudio: true,
-  },
 };
 
 var game = new Phaser.Game(config);
