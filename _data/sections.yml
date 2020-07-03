@@ -1,2 +1,10 @@
-- name: Home
+home:
+  title: Home on the Range
   link: /index.html
+  icon: /assets/images/barn.png
+
+horsing:
+  title: Horsing Around
+  link: /horsing.html
+  icon: /assets/images/horse.png
+ 
