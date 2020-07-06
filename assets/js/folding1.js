@@ -62,7 +62,7 @@ function fold1Create() {
   this.physics.add.collider(player, platforms);
   this.physics.add.collider(ball, platforms);
 
-  var right_button = this.add.image(30, 230, "rightbutton");
+  var right_button = this.add.image(40, 230, "rightbutton");
   right_button
     .setInteractive()
     .on("pointerdown", function () {
@@ -74,8 +74,11 @@ function fold1Create() {
       buttonDown = false;
     });
 
-  var style = { font: "40px Arial", fill: "#000000", align: "center" };
-  sumText = this.add.text(ball.x - 45, ball.y - 45, "Sum:\n0", style);
+  var instStyle = { font: "bold 22px Courier", fill: "#000000" };
+  instText = this.add.text(80, 210, "Click arrow button\nor press right arrow key", instStyle);
+
+  var sumStyle = { font: "bold 30px Courier", fill: "#000000", align: "center" };
+  sumText = this.add.text(ball.x - 27, ball.y - 30, "Sum\n0", sumStyle);
   this.physics.world.enable(sumText);
 
   cursors = this.input.keyboard.createCursorKeys();
@@ -141,7 +144,7 @@ function fold1Update() {
       movingBodies.push(item.body);
       rotatingBodies.push(item.body);
       sum += item.value;
-      sumText.setText("Sum:\n" + sum.toString());
+      sumText.setText("Sum\n" + sum.toString());
     }
   });
 

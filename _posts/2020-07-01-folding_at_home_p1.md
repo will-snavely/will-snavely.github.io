@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Folding at Home, Part 1: Origins"
+title: "Folding at Home, Part 1: Intuitions"
 date: 2020-07-01
 section: horsing
 author: WS
@@ -75,8 +75,10 @@ as it incorporates—folds in—more material. The `fold` operator works much li
 of summation, our snowball is a running total, which grows as it encounters each value of the list.
 
 <div class="row">
-  <div class="col-md-12">
-    <div id="fold1"></div>
+  <div class="col-md-12 px-5">
+    <div style="max-width: 1000px;">
+      <div id="fold1"></div>
+    </div>
   </div>
 </div>
 
@@ -90,7 +92,7 @@ For the summation of a list of integers, the answers to these questions are:
 
 1. The destination type is an integer.
 2. For a given value in the list, we simply add it to the accumulator.
-3. The initial value is 0 (i.e. the additive identity).
+3. The initial value is 0 (the additive identity).
 
 For the product of a list of integers, the answers are almost the same:
 
