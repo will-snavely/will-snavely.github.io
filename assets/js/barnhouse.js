@@ -12,6 +12,9 @@ var barnhouseConfig = {
   scale: {
     mode: Phaser.Scale.RESIZE,
   },
+  audio: {
+    disableWebAudio: true,
+  },
 };
 
 var barnhouseGame = new Phaser.Game(barnhouseConfig);
