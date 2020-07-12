@@ -138,7 +138,6 @@ capabilities here, to identify which kind of `Etymology` instance we are working
 with (`End` or `EtymologyNode`) in a particular call.
 
 With this in mind, our `describe` function might look something like this:
-
 ```scala
   def describe(etymology: Etymology): String = etymology match {
     case End =>
