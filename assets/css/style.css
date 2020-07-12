@@ -11,6 +11,10 @@
   border-style: solid;
 }
 
+.footerbanner {
+  height: 100px;
+}
+
 .blmbg {
   background-color: #000000;
 }

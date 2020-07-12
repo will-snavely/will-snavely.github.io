@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Folding at Home, Part 1: Origins"
+title: "Folding at Home, Part 1: Intuitions"
 date: 2020-07-01
 section: horsing
 author: WS
@@ -74,27 +74,34 @@ magical snowball that picks up everything it comes into contact with, growing la
 as it incorporates—folds in—more material. The `fold` operator works much like this.  In the case
 of summation, our snowball is a running total, which grows as it encounters each value of the list.
 
-<div id="fold1"></div>
+<div class="row">
+  <div class="col-md-12 px-5">
+    <div style="max-width: 1000px;">
+      <div id="fold1"></div>
+    </div>
+  </div>
+</div>
 
 Thus, when designing a `fold` operation, one has to answer the following questions:
 
 1. What is the nature of the entity we are accumulating? We might call this the destination type.
-2. How do we accumulate elements of the source type into the destination type? We might call this the accumulation function.
-3. What is the initial value of the accumulator?
+2. What is the initial value of the accumulator?
+3. How do we accumulate elements of the source type into the destination type? We might call this the accumulation function.
 
 For the summation of a list of integers, the answers to these questions are:
 
 1. The destination type is an integer.
-2. For a given value in the list, we simply add it to the accumulator.
-3. The initial value is 0 (i.e. the additive identity).
+2. The initial value is 0 (the additive identity).
+3. For a given value in the list, we simply add it to the accumulator.
 
 For the product of a list of integers, the answers are almost the same:
 
 1. The destination type is an integer.
-2. For a given value in the list, we multiply the accumulator by this value.
-3. The initial value is 1 (the multiplicative identity).
+2. The initial value is 1 (the multiplicative identity).
+3. For a given value in the list, we multiply the accumulator by this value.
 
 One has substantial latitude in answering these questions. For example, the destination type
 need not be simpler than the source type. The accumulation function can be as simple or
 complex as needed. And, of course, the initial value must adjust based on the destination
-type chosen. In the next post, we'll start looking at some of these ideas in code.
+type chosen. In the [next post]({% post_url 2020-07-07-folding_at_home_p2 %}), 
+we'll start looking at some of these ideas in code.
