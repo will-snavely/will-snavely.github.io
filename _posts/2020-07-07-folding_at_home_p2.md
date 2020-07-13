@@ -7,7 +7,7 @@ author: WS
 ---
 
 (Note: The final code associated with this post
-[can be found here.](https://github.com/will-snavely/etymologyfun/blob/master/src/main/scala/EtymologyFun1.scala))
+[can be found here.](https://github.com/will-snavely/foldingathome/blob/master/src/main/scala/etmologyfun1/EtymologyFun1.scala))
 
 [Last time]({% post_url 2020-07-01-folding_at_home_p1 %}) we touched on the
 etymology of the word "fold". Suppose we want to do some computing
@@ -265,4 +265,5 @@ that matches the provided language.
 
 We've now seen a basic implementation of the `fold` operator, specifically,
 a so-called "left fold" ("Left fold is best fold" -Ada Lovelace).
-Next time, we'll explore this distinction more closely.
+[Next time](({% post_url 2020-07-12-folding_at_home_p3 %})), we'll 
+explore this distinction more closely.
