@@ -6,26 +6,26 @@ section: horsing
 author: WS
 ---
 
-(Note: The final code associated with this post 
-[can be found here.](https://github.com/will-snavely/etymologyfun/blob/master/src/main/scala/EtymologyFun1.scala))
+(Note: The final code associated with this post
+[can be found here.](https://github.com/will-snavely/foldingathome/blob/master/src/main/scala/etmologyfun1/EtymologyFun1.scala))
 
-[Last time]({% post_url 2020-07-01-folding_at_home_p1 %}) we touched on the 
-etymology of the word "fold". Suppose we want to do some computing 
-(in particular, some `fold`-ing) with this data. For now, 
-let's limit our attention to one branch of fold's rather rich
-etymology:
+[Last time]({% post_url 2020-07-01-folding_at_home_p1 %}) we touched on the
+etymology of the word "fold". Suppose we want to do some computing
+(in particular, some `fold`-ing) with this data. For now,
+let's limit our attention to one branch of 
+[fold's rather rich etymology](https://en.wiktionary.org/wiki/fold):
 
-<img src="/assets/images/posts/fold2/fold_etym.svg" alt="Fold Etymology" width="200"/>
+<img src="/assets/images/posts/fold2/fold_etym.svg" alt="Fold Etymology" class="img-fluid" style="max-width: 400px;"/>
 
 For now, a list-like structure is sufficient to store this information,
 though something more tree-like (arboresque, if you'll allow—in which case
 the data resident therein might be called "arboreal", which I find far more
-appealing than the more traditional "hierarchical") will be 
+appealing than the more traditional "hierarchical") will be
 required at some point, e.g. to represent multiple etymologies for
 a given word.
 
 I will be proceeding in the [Scala programming language](https://www.scala-lang.org/),
-which I have been learning lately. Scala features a variety of 
+which I have been learning lately. Scala features a variety of
 built data structures, e.g. the [List](https://www.scala-lang.org/api/current/scala/collection/immutable/List.html),
 which I could very well use to represent this simple etymology.
 But for the purpose of illustration, I will be starting from scratch.
@@ -33,7 +33,7 @@ But for the purpose of illustration, I will be starting from scratch.
 The basic unit of information in an etymology is a _word_, which is a
 combination of a character string with a language name. For example,
 the top-most element of the "fold" etymology shown above is an English
-word consisting of the characters `["f", "o", "l", "d"]`. Below, we 
+word consisting of the characters `["f", "o", "l", "d"]`. Below, we
 define some Scala types to represent this definition: a `Language` type
 type and a `Word` type. There is some Scala syntax here that might
 be confusing to one unfamiliar with the language, but it's not terribly
@@ -52,7 +52,7 @@ case object Latin extends Language
 case class Word(characters: String, language: Language)
 ```
 
-We use the `case object` construct (which also sounds like it could be 
+We use the `case object` construct (which also sounds like it could be
 plausibly uttered in a courtroom) to define some specific, common languages,
 like English and Latin. Next, we need to build our list data structure.
 We will use a singly-linked, null-terminated list, defined as follows.
@@ -64,7 +64,7 @@ case object End extends Etymology
 ```
 
 That is, an element of an etymology, called an `EtymologyNode`, consists of a
-word and its immediate ancestor (called `root` above). If a word has no 
+word and its immediate ancestor (called `root` above). If a word has no
 known ancestor, then `root` is set to the special `End` element. Using
 these definitions, this is how we instantiate the etymology for the word
 "fold":
@@ -130,8 +130,8 @@ def traverse(etymology: Etymology): Unit = etymology match {
 
 The `Unit` return type on this function indicates that it doesn't produce a value,
 roughly analogous to the `void` type in Java. This `traverse` function is a touch
-heretical, in that it has a side-effect, and therefore is not a 
-[pure function](https://en.wikipedia.org/wiki/Pure_function). Namely, it prints 
+heretical, in that it has a side-effect, and therefore is not a
+[pure function](https://en.wikipedia.org/wiki/Pure_function). Namely, it prints
 something to the screen. But, it gets the idea across. Note that we use
 Scala's [pattern matching](https://docs.scala-lang.org/tour/pattern-matching.html)
 capabilities here, to identify which kind of `Etymology` instance we are working
@@ -188,7 +188,6 @@ three basic pieces of information:
 2. What is the initial value of the accumulator?
 3. How do we accumulate elements of the source type into the destination type, a.k.a. the accumulation function.
 
-
 With these requirements in mind, here is an initial implementation.
 
 ```scala
@@ -206,17 +205,18 @@ by adding the `[V]` syntax next to the name of the function. This means that cal
 the function must specify a type when calling the `fold` function, which will get bound to
 the symbol `V`. `V` represents the destination type of the `fold`.
 
-The function takes three arguments: 
+The function takes three arguments:
+
 1. An `Etymology` instance, `e`, representing the etymology we wish to fold.
 2. A value of type `V`, representing the initial value of the accumulator.
-3. A function `f`, which takes an individual `Word` and a "running total" `V`, 
-and accumulates the word into the "running total."
+3. A function `f`, which takes an individual `Word` and a "running total" `V`,
+   and accumulates the word into the "running total."
 
 When we encounter the `End` node, we simply return the accumulator value given to
 us. For a list node, we "roll the snowball", that is, fold the word in the node
 into the "running total" by applying the accumulator function `f`. We then recurse
-on the remainder of the list, passing our updated "total" as well as the 
-original accumulator function.  
+on the remainder of the list, passing our updated "total" as well as the
+original accumulator function.
 
 Let's see how `describe` can be implemented with this `fold` function.
 
@@ -234,7 +234,7 @@ def describe(e: Etymology): String =
 We encounter some more Scala syntax here, namely the syntax for defining
 an [anonymous function](https://docs.scala-lang.org/overviews/scala-book/anonymous-functions.html),
 which we use simply to make the implementation more compact. Note that the `String`
-type parameter is strictly optional here: Scala features 
+type parameter is strictly optional here: Scala features
 [_type inference_](https://docs.scala-lang.org/tour/type-inference.html), which
 allows you to omit types if the compiler can discover them from context.
 Here, since we pass a `String` value to the second parameter, the compiler can
@@ -242,7 +242,7 @@ figure out that `V` ought to be `String`.
 
 (As an aside, we _cannot_ omit the types on the anonymous function arguments,
 even though it seems that the compiler should be able to figure out those types.
-This is due to some fundamental properties of Scala's typing system that are 
+This is due to some fundamental properties of Scala's typing system that are
 significantly beyond the scope of this post. Fortunately, there are ways to
 hack around these limitations, which we might explore in a future post.)
 
@@ -264,5 +264,6 @@ as it traverses the entire list, even though we only need to find one node
 that matches the provided language.
 
 We've now seen a basic implementation of the `fold` operator, specifically,
-a so-called "left fold" ("Left fold is best fold" -Ada Lovelace). 
-Next time, we'll explore this distinction more closely.
+a so-called "left fold" ("Left fold is best fold" -Ada Lovelace).
+[Next time](({% post_url 2020-07-12-folding_at_home_p3 %})), we'll 
+explore this distinction more closely.
