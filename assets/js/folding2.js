@@ -1,7 +1,7 @@
 var fold2Config = {
   type: Phaser.AUTO,
   width: 1000,
-  height: 500,
+  height: 550,
   parent: "fold2",
   scene: {
     preload: fold2Preload,
@@ -28,8 +28,11 @@ var fold2Data = {
   ball: null,
   platforms: null,
   buttonDown: false,
-  sumText: "",
-  sum: 0,
+  accLabel: "Accumulator",
+  ballLabel: "doubleUp",
+  accText: null,
+  ballText: null,
+  acc: "",
   movingBodies: [],
   rotatingBodies: [],
   velocity: 160,
@@ -54,62 +57,49 @@ function fold2Preload() {
 
 function fold2Create() {
   scene = this;
+  var OFFSCREEN = -500;
   fold2Data.platforms = this.physics.add.staticGroup();
-  fold2Data.platforms.create(500, 420, "ground");
+  fold2Data.platforms.create(500, 470, "ground");
 
-  fold2Data.player = this.physics.add.image(40, 265, "guy");
-  fold2Data.ball = this.physics.add.image(165, 240, "ball");
+  fold2Data.player = this.physics.add.image(OFFSCREEN, OFFSCREEN, "guy");
+  fold2Data.ball = this.physics.add.image(OFFSCREEN, OFFSCREEN, "ball");
 
-  var sumStyle = {
+  var style1 = {
     font: "bold 30px Courier",
     fill: "#000000",
     align: "center",
   };
-  fold2Data.sumText = this.add.text(
-    fold2Data.ball.x - 27,
-    fold2Data.ball.y - 30,
-    "Sum\n0",
-    sumStyle
+  fold2Data.accText = this.add.text(100, 400, "", style1);
+  var style1 = {
+    font: "bold 24px Courier",
+    fill: "#000000",
+    align: "center",
+  };
+  fold2Data.ballText = this.add.text(
+    OFFSCREEN,
+    OFFSCREEN,
+    fold2Data.ballLabel,
+    style1
   );
-  this.physics.world.enable(fold2Data.sumText);
+  this.physics.world.enable(fold2Data.ballText);
 
-  fold2Data.collectables = [
-    {
+  collectableImages = ["dog1", "pizza2", "football3"];
+  fold2Data.collectables = [];
+  value = 1;
+  collectableImages.forEach(function (image) {
+    fold2Data.collectables.push({
       collected: false,
-      body: this.physics.add.image(300, 395, "dog1"),
-      intercept: 260,
-      value: 1,
-    },
-    {
-      collected: false,
-      body: this.physics.add.image(400, 395, "pizza2"),
-      intercept: 360,
-      value: 2,
-    },
-    {
-      collected: false,
-      body: this.physics.add.image(500, 395, "football3"),
-      intercept: 460,
-      value: 3,
-    },
-    {
-      collected: false,
-      body: this.physics.add.image(600, 395, "guitar4"),
-      intercept: 560,
-      value: 4,
-    },
-    {
-      collected: false,
-      body: this.physics.add.image(700, 395, "cactus5"),
-      intercept: 660,
-      value: 5,
-    },
-  ];
+      body: scene.physics.add.image(OFFSCREEN, OFFSCREEN, image),
+      intercept: null,
+      value: value,
+    });
+    value += 1;
+  });
 
   this.physics.add.collider(fold2Data.player, fold2Data.platforms);
   this.physics.add.collider(fold2Data.ball, fold2Data.platforms);
 
-  fold2Data.moveButton = this.add.image(500, 420, "movebutton");
+  fold2Data.moveButton = this.add.image(500, 490, "movebutton");
   fold2Data.moveButton.setInteractive().on("pointerdown", function () {
     fold2Data.buttonDown = true;
     fold2Data.moveButton.setTint(0x00ff00);
@@ -151,10 +141,10 @@ function resetCollectables() {
     item.body.setVelocityX(0);
     item.body.setAngularVelocity(0);
     item.body.x = offset;
-    item.body.y = 395;
+    item.body.y = 425;
     item.body.rotation = 0;
     item.intercept = offset - 40 * fold2Data.direction;
-    offset += 100;
+    offset += 200;
   });
 }
 
@@ -163,29 +153,35 @@ function reset(scene) {
   stop();
   fold2Data.ball.rotation = 0;
 
+  fold2Data.ball.y = 290;
+  fold2Data.player.y = 305;
   if (fold2Data.direction == 1) {
     fold2Data.player.x = 40;
-    fold2Data.player.y = 265;
     fold2Data.ball.x = 165;
-    fold2Data.ball.y = 240;
     fold2Data.player.flipX = false;
     fold2Data.ball.flipX = false;
     fold2Data.moveButton.flipX = false;
   } else {
     fold2Data.player.x = 960;
-    fold2Data.player.y = 265;
     fold2Data.ball.x = 835;
-    fold2Data.ball.y = 240;
     fold2Data.player.flipX = true;
     fold2Data.ball.flipX = true;
     fold2Data.moveButton.flipX = true;
   }
 
-  fold2Data.sum = 0;
-  fold2Data.sumText.x = fold2Data.ball.x - 27;
-  fold2Data.sumText.setText("Sum\n" + fold2Data.sum.toString());
+  fold2Data.ballText.x = fold2Data.ball.x - 55;
+  fold2Data.ballText.y = fold2Data.ball.y - 15;
 
-  fold2Data.movingBodies = [fold2Data.player, fold2Data.ball, fold2Data.sumText.body];
+  fold2Data.acc = "End";
+  fold2Data.accText.setText(
+    fold2Data.accLabel + ": " + fold2Data.acc.toString()
+  );
+
+  fold2Data.movingBodies = [
+    fold2Data.player,
+    fold2Data.ball,
+    fold2Data.ballText.body,
+  ];
   fold2Data.rotatingBodies = [fold2Data.ball];
 }
 
@@ -211,13 +207,20 @@ function fold2Update() {
         item.body.y = fold2Data.ball.y;
         fold2Data.movingBodies.push(item.body);
         fold2Data.rotatingBodies.push(item.body);
-        fold2Data.sum += item.value;
-        fold2Data.sumText.setText("Sum\n" + fold2Data.sum.toString());
+        fold2Data.acc =
+          "(" + item.value + ", (" + item.value + ", " + fold2Data.acc + "))";
+        fold2Data.accText.setText(
+          fold2Data.accLabel + ": " + fold2Data.acc.toString()
+        );
       }
     }
   });
 
-  if (fold2Data.buttonDown) {
+  if (
+    fold2Data.buttonDown ||
+    (fold2Data.direction == 1 && fold2Data.cursors.right.isDown) ||
+    (fold2Data.direction == -1 && fold2Data.cursors.left.isDown)
+  ) {
     if (fold2Data.player.x > 30 && fold2Data.player.x < 970) {
       move(160, 100);
     } else {
