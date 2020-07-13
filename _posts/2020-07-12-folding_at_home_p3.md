@@ -16,7 +16,7 @@ Note: The code associated with this post
 at a basic implementation of the fold operator, for a simple list data structure.
 The core of our code was the following:
 
-```scala
+``` scala
 sealed trait Etymology
 case class EtymologyNode(word: Word, root: Etymology) extends Etymology
 case object End extends Etymology
@@ -33,7 +33,7 @@ This `fold` function works specifically with the `Etymology` data type,
 effectively a singly-linked list of `Word` objects. Without too much difficulty,
 we can covert this into a _generic_ implementation:
 
-```scala
+``` scala
 sealed trait LinkedList[+A]
 case class Node[A](data: A, next: LinkedList[A]) extends LinkedList[A]
 case object End extends LinkedList[Nothing]
@@ -79,14 +79,14 @@ Suppose now that we wish to write a function `doubleUp`, which takes a
 `LinkedList` and returns a new `LinkedList` where every element is
 repeated. For example:
 
-```scala
+``` scala
 val intList: LinkedList[Int] = Node(1, Node(2, Node(3, End)))
 assert(doubleUp(intList)) == Node(1, Node(1, Node(2, Node(2, Node(3, Node(3, End))))))
 ```
 
 Perhaps we can use our `fold` operator. The following seems reasonable on the surface:
 
-```
+``` scala
 def doubleUp[A](as: LinkedList[A]): LinkedList[A] =
   fold(as, End, (elem: A, acc: LinkedList[A]) => Node[A](elem, Node(elem, acc)))
 ```
@@ -125,7 +125,7 @@ first instead of "1", in the above example.
 
 This `fold` variation, which we might call `foldRight`, can be implemented as follows:
 
-```scala
+``` scala
 def foldRight[A, B](as: LinkedList[A], b: B, f: (A, B) => B): B = as match {
   case End => b
   case Node(data, next) => f(data, foldRight(next, b, f))
@@ -138,7 +138,7 @@ passed-in accumulator, we instead recurse first, and pass the value returned by 
 recursive call into `f`, along with the current `data` element. The `doubleUp`
 function can now be written as:
 
-```scala
+``` scala
 def doubleUp[A](as: LinkedList[A]): LinkedList[A] =
   foldRight(as, End, (elem: A, acc: LinkedList[A]) => Node[A](elem, Node(elem, acc)))
 ```
@@ -160,7 +160,7 @@ sake of brevity, we omit `Node` when describing a list, e.g., the list
 
 To recap, here are our two fold variations:
 
-```scala
+``` scala
 def foldLeft[A, B](as: LinkedList[A], b: B, f: (A, B) => B): B = as match {
   case End => b
   case Node(data, next) => foldLeft(next, f(data, b), f)
@@ -181,7 +181,7 @@ There are a few ways we might implement such a function, e.g. a
 straightforward recursive implementation. But we are going to be a little
 particular. Here is the code:
 
-```scala
+``` scala
 def range(from: Int, to: Int): LinkedList[Int] = {
   @annotation.tailrec
   def helper(cur: Int, acc: LinkedList[Int]): LinkedList[Int] =
@@ -206,7 +206,7 @@ following implementation of `range`, while nice and concise, is not tail-recursi
 and would invariably generate stack overflows if asked to construct
 sufficiently large ranges:
 
-```scala
+``` scala
 def range(from: Int, to: Int): LinkedList[Int] =
   if (from <= to) Node(from, range(from + 1, to))
   else End
@@ -222,7 +222,7 @@ we want to sum up the first ten-thousand integers, using a `fold`. Note that the
 [simple formula](https://en.wikipedia.org/wiki/1_%2B_2_%2B_3_%2B_4_%2B_%E2%8B%AF)
 for computing such a sum, which we will use to write the following assertion:
 
-```scala
+``` scala
 assert(
   foldLeft(range(0, 10000), 0, (elem:Int, acc:Int) => elem + acc)
   == (10000 * 10001) / 2
@@ -233,7 +233,7 @@ This works as expected. What if we switch to `foldRight`? Since addition is comm
 order shouldn't matter when computing this sum, and we might expect `foldRight` to work just
 as well as `foldLeft` here.
 
-```scala
+``` scala
 assert(
   foldRight(range(0, 10000), 0, (elem:Int, acc:Int) => elem+acc)
   == (10000 * 10001) / 2
@@ -271,7 +271,7 @@ It turns out there are a number of things we can do to improve our implementatio
 `foldRight`. The first, and perhaps simplest idea, is one that was already suggested:
 to `foldRight`, we can simply reverse the list, the apply a `foldLeft`:
 
-```scala
+``` scala
 def foldRightWithReverse[A, B](as: LinkedList[A], b: B, f: (A, B) => B): B =
   foldLeft(reverse(as), b, f)
 ```
@@ -280,7 +280,7 @@ It remains to implement a stack-safe version of reverse. In fact, we've already 
 Our initial `doubleUp` implementation reversed the input list. Therefore, we can simply
 use the same idea, without the doubling-up aspect:
 
-```
+``` scala
 def reverse[A](as: LinkedList[A]): LinkedList[A] =
   foldLeft(as, End, (elem:A, acc:LinkedList[A]) => Node(elem, acc))
 ```
@@ -288,7 +288,7 @@ def reverse[A](as: LinkedList[A]): LinkedList[A] =
 Since `foldLeft` is tail-recursive, `reverse` will be stack-safe. The following assertion should
 now pass without any exceptions.
 
-```
+``` scala
 assert(
   foldRightWithReverse(range(0, 10000), 0, (elem: Int, acc: Int) => elem + acc)
   == (10000 * 10001) / 2
@@ -322,7 +322,7 @@ Feel free to study this implementation, though it's not central to
 this example. It should suffice to understand what `map` accomplishes,
 fundamentally.
 
-```scala
+``` scala
 def map[A, B](as: LinkedList[A], f: A => B): LinkedList[B] =
   foldLeft(reverse(as), End, (a:A, b:LinkedList[B]) => Node(f(a), b))
 
@@ -336,7 +336,7 @@ As noted, our `map` implementation can transform list elements to
 an arbitrary type, called `B` above. `B` can even be a function type, 
 if desired. Consider this strange looking transformation:
 
-```scala
+``` scala
 def strangeTransform[A, B](as: LinkedList[A], f: (A, B) => B): LinkedList[B => B] =
   map(as, (a: A) => ((b: B) => f(a, b)))
 ```
@@ -379,7 +379,7 @@ a value that we can legally pass into `g` (is a member of `g`'s domain, in other
 Our `strangeTransform` produces a list of functions that take and return `B`'s, therefore
 we can certainly compose these functions together. Here's what that might look like:
 
-```
+``` scala
 def strangeComposition[A, B](as: LinkedList[A], f: (A, B) => B): B => B =
   foldLeft(
     strangeTransform(as, f),
@@ -411,7 +411,7 @@ The last line in this diagram is awfully close to the definition of the
 `foldRight` operator. All we need to do is pass in our initial 
 accumulator value, and we have it exactly.
 
-```
+``` scala
 def strangeFoldRight[A, B](as: LinkedList[A], z: B, f: (A, B) => B): B =
   strangeComposition(as, f)(z)
 ```
@@ -422,7 +422,7 @@ will require its own stack frame. But it is an interesting object to study, in t
 service of understanding higher-order functions. Here is a more compact version
 of this implementation:
 
-```scala
+``` scala
 def strangeFoldRightCompact[A, B](as: LinkedList[A], z: B, f: (A, B) => B): B = {
   foldLeft(as,
     (b: B) => b, // Identify function
