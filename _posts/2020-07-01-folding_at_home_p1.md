@@ -82,7 +82,7 @@ of summation, our snowball is a running total, which grows as it encounters each
   </div>
 </div>
 
-Thus, when designing a `fold` operation, one has to answer the following questions:
+When designing a `fold` operation, one has the following questions to ponder:
 
 1. What is the nature of the entity we are accumulating? We might call this the destination type.
 2. What is the initial value of the accumulator?
