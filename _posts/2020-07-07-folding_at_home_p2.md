@@ -265,5 +265,5 @@ that matches the provided language.
 
 We've now seen a basic implementation of the `fold` operator, specifically,
 a so-called "left fold" ("Left fold is best fold" -Ada Lovelace).
-[Next time](({% post_url 2020-07-12-folding_at_home_p3 %})), we'll 
+[Next time]({% post_url 2020-07-12-folding_at_home_p3 %}), we'll 
 explore this distinction more closely.
