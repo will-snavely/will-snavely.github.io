@@ -357,10 +357,8 @@ and the given `B`. Here's a diagram that hopefully helps to untangle
 what's going on here. We further simplify our list syntax to
 square-bracket notation, dispensing with the mess of parentheses.
 
-<div class="row text-center mb-3 mt-3">
-  <div class="col-md-12">
-    <img src="/assets/images/posts/fold3/strangeTransform.png" alt="Strange Transform" class="img-fluid" style="max-width: 500px;"/>
-  </div>
+<div class="m-5" div style="max-width: 500px;">
+  <img src="/assets/images/posts/fold3/strangeTransform.png" alt="Strange Transform" class="img-fluid">
 </div>
 
 Now that we have a list of functions, we'll do the [same thing we've been
@@ -401,11 +399,10 @@ the accumulator function. We could compose these functions in the
 other direction, but it would end up causing us problems, as we'll
 soon see. Let's extend our diagram to illustrate what we've constructed:
 
-<div class="row text-center mb-3 mt-3">
-  <div class="col-md-12">
-    <img src="/assets/images/posts/fold3/strangeTransform2.png" alt="Strange Transform" class="img-fluid" style="max-width: 500px;"/>
-  </div>
+<div class="m-5" div style="max-width: 500px;">
+  <img src="/assets/images/posts/fold3/strangeTransform2.png" alt="Strange Transform" class="img-fluid"/>
 </div>
+
 
 The last line in this diagram is awfully close to the definition of the
 `foldRight` operator. All we need to do is pass in our initial 
