@@ -119,7 +119,7 @@ Our JMH benchmark will have two parts: a state class that describes the inputs
 for a given benchmark invocation (in this case, the size of the list we are 
 folding), and individual benchmark functions that call the desired fold variant.
 
-### `BenchmarkState`
+### Benchmark State
 The `BenchmarkState` class below defines some state that is applied to
 each individual benchmark we write (functions tagged with the `@Benchmark`
 annotation). For this particular application, we want to run 
