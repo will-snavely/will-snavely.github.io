@@ -163,14 +163,16 @@ Our individual benchmarks are implemented in a separate class, in functions with
 the `@Benchmark` annotation, e.g.:
 
 ```scala
-@Benchmark
-def foldLeftIteratorBaseline(state: BenchmarkState): Int = {
-  state.testSeq.iterator.foldLeft(0)(_ + _)
-}
+class FoldBenchmark {
+  @Benchmark
+  def foldLeftIteratorBaseline(state: BenchmarkState): Int = {
+    state.testSeq.iterator.foldLeft(0)(_ + _)
+  }
 
-@Benchmark
-def foldLeftLinearSeqBaseline(state: BenchmarkState): Int = {
-  state.testSeq.foldLeft(0)(_ + _)
+  @Benchmark
+  def foldLeftLinearSeqBaseline(state: BenchmarkState): Int = {
+    state.testSeq.foldLeft(0)(_ + _)
+  }
 }
 ```
 
@@ -182,16 +184,14 @@ For fun, let's put in one more benchmark: a recursive implementation of
 `foldLeft` with tail-optimization turned on:
 
 ```scala
-class FoldBenchmark {
-  @Benchmark
-  def foldLeftIteratorBaseline(state: BenchmarkState): Int = {
-    state.testSeq.iterator.foldLeft(0)(_ + _)
-  }
+@annotation.tailrec
+final def foldLeft[A,B](as: LinearSeq[A], z: B)(f : (B,A) => B): B =
+  if (as.isEmpty) z
+  else foldLeft(as.tail, f(z, as.head))(f)
 
-  @Benchmark
-  def foldLeftLinearSeqBaseline(state: BenchmarkState): Int = {
-    state.testSeq.foldLeft(0)(_ + _)
-  }
+@Benchmark
+def foldLeftRecursiveBaseLine(state: BenchmarkState): Int = {
+  foldLeft(state.testSeq, 0)(_ + _)
 }
 ```
 
