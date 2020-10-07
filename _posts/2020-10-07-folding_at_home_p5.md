@@ -71,7 +71,7 @@ under various conditions, and come to some conclusions about their relative effi
 known as [benchmarking](https://en.wikipedia.org/wiki/Benchmark_(computing)).
 
 ## Enter JMH
-[JMH, or the Java Microbenchmark Harness](https://github.com/openjdk/jmh) is a framework one
+[JMH, or the Java Microbenchmark Harness](https://github.com/openjdk/jmh), is a framework one
 can use to build benchmarks for JVM programs. We'll show how to use this tool to build a simple 
 benchmark for the different incarnations of `foldLeft`. Since I am evaluating a Scala
 application, I will use the [sbt-jmh](https://github.com/ktoso/sbt-jmh) plugin, which builds
