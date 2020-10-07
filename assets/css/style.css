@@ -9,6 +9,7 @@
 .maintext {
   background-color: #ffffff;
   border-style: solid;
+  max-width: 1200px;
 }
 
 .footerbanner {
