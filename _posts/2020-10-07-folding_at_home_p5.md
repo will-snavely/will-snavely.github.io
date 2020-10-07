@@ -121,8 +121,7 @@ folding), and individual benchmark functions that call the desired fold variant.
 
 ### Benchmark State
 The `BenchmarkState` class below defines some state that is applied to
-each individual benchmark we write (functions tagged with the `@Benchmark`
-annotation). For this particular application, we want to run 
+each individual benchmark we write. For this particular application, we want to run 
 each function with different input sizes. To accomplish this,
 we define a field with the `@Param` annotation, and initialize
 that annotation with an `Array` of possible values.
