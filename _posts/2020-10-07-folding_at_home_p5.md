@@ -271,7 +271,7 @@ Summarizing this in a table:
   </tbody>
 </table>
 
-There is very little significant difference between the throughput of these
+There is very little difference between the throughput of these
 functions. Different benchmarks might expose different results, and more
 study is required, but on the face of things  it appears that the Scala compiler and 
 JVM runtime-JIT do a reasonable job of making these three implementations
