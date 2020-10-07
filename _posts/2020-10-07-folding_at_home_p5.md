@@ -114,7 +114,7 @@ addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.3.7")
 sbt.version = 1.3.13
 ```
 
-### The Benchmark
+## The Benchmark
 Our JMH benchmark will have two parts: a state class that describes the inputs
 for a given benchmark invocation (in this case, the size of the list we are 
 folding), and individual benchmark functions that call the desired fold variant.
